@@ -13,14 +13,23 @@ pipeline {
           git credentialsId: 'GithubRepo', url: 'https://github.com/supratim230184/JavaSonar.git'
            }
   }
-  stage('SonarQube Analysis') {
-    def mvn = tool 'Maven1'
-      steps {
-    withSonarQubeEnv() {
-      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=javasonar"
-    }
-    }
-  }
+
+stage('Package') {
+            steps {
+                bat 'mvn package'    
+		            echo "Maven Package Goal Executed Successfully!";
+            }
+        }
+
+        
+     stage('SonarQube analysis') {
+            steps {
+		// Change this as per your Jenkins Configuration
+                withSonarQubeEnv('sonar') {
+                    bat 'mvn package sonar:sonar'
+                }
+            }
+        }
     }
   
   
