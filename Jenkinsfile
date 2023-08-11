@@ -5,19 +5,19 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello World'
+                echo 'Hello Devops'
             }
         }
       stage('SCM') {
            steps {
-          git credentialsId: 'GithubRepo', url: 'https://github.com/supratim230184/JavaSonar.git'
+           git credentialsId: 'GithubRepo', url: 'https://github.com/supratim230184/JavaSonar.git'
            }
   }
 
 stage('Package') {
             steps {
                 bat 'mvn package'    
-		            echo "Maven Package Goal Executed Successfully!";
+		echo "Maven Package Goal Executed Successfully!";
             }
         }
 
@@ -30,7 +30,15 @@ stage('Package') {
                 }
             }
         }
-    }
+     stage("Docker") {
+	     steps {
+		     echo "create docker image and push it to dockerhub"
+	     }
+	     }
   
-  
+    stage("kubernetes") {
+	    steps {
+		    echo "deploy to local minikube"
+	    }
+	    }
 }
