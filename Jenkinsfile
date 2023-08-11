@@ -35,7 +35,11 @@ stage('Package') {
 		     echo "create docker image and push it to dockerhub"
 	     }
 	     }
-  
+    stage("Input Approval") {
+	    steps {
+		    input message: 'Will deploy to kubernetes cluster?', parameters: [choice(choices: ['yes', 'no'], name: 'option')]
+	    }
+    }
     stage("kubernetes") {
 	    steps {
 		    echo "deploy to local minikube"
