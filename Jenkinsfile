@@ -30,7 +30,12 @@ stage('Package') {
                 }
             }
         }
-     stage("Docker") {
+stage("Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+	    stage("Docker") {
 	     steps {
 		     echo "create docker image and push it to dockerhub"
 	     }
